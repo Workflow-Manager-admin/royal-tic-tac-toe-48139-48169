@@ -1,3 +1,53 @@
-<div class="container">
-  <h1>{{ title }}</h1>
+<div class="main-wrapper">
+  <h1 class="app-title">{{ title }}</h1>
+  <div class="game-status" data-testid="status">{{ statusMessage }}</div>
+  <div class="game-board" role="grid">
+    <div
+      class="board-row"
+      *ngFor="let row of board; let rowIndex = index"
+      role="row"
+    >
+      <button
+        *ngFor="let cell of row; let colIndex = index"
+        class="cell"
+        role="gridcell"
+        [disabled]="cell || winner || isDraw"
+        (click)="makeMove(rowIndex, colIndex)"
+        [ngClass]="{
+          x: cell === 'X',
+          o: cell === 'O'
+        }"
+        [attr.aria-label]="'cell ' + rowIndex + ',' + colIndex"
+      >
+        <ng-container [ngSwitch]="cell">
+          <ng-container *ngSwitchCase="'X'">
+            <!-- King SVG (for X) -->
+            <svg class="svg-piece" viewBox="0 0 56 56">
+              <g>
+                <rect x="23" y="35" width="10" height="10" rx="2" fill="#3f51b5"/>
+                <polygon points="28,8 34,35 22,35" fill="#ffeb3b" stroke="#3f51b5" stroke-width="1.5"/>
+                <ellipse cx="28" cy="40" rx="4" ry="2" fill="#3f51b5" opacity="0.4"/>
+                <text x="28" y="28" font-size="16" text-anchor="middle" alignment-baseline="middle" fill="#fff" font-weight="bold">K</text>
+              </g>
+            </svg>
+          </ng-container>
+          <ng-container *ngSwitchCase="'O'">
+            <!-- Queen SVG (for O) -->
+            <svg class="svg-piece" viewBox="0 0 56 56">
+              <g>
+                <ellipse cx="28" cy="36" rx="7" ry="5" fill="#f44336" />
+                <circle cx="28" cy="22" r="10" fill="#fff" stroke="#f44336" stroke-width="1.5"/>
+                <polygon points="28,10 32,24 24,24" fill="#ffeb3b" stroke="#f44336" stroke-width="1.5"/>
+                <ellipse cx="28" cy="36" rx="4" ry="2" fill="#f44336" opacity="0.2"/>
+                <text x="28" y="28" font-size="16" text-anchor="middle" alignment-baseline="middle" fill="#f44336" font-weight="bold">Q</text>
+              </g>
+            </svg>
+          </ng-container>
+        </ng-container>
+      </button>
+    </div>
+  </div>
+  <button class="restart-btn" type="button" (click)="restartGame()" [disabled]="!winner && !isDraw">
+    Restart Game
+  </button>
 </div>
