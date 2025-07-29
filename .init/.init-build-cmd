@@ -1,0 +1,4 @@
+{
+    "command": "npm install && npm run build",
+    "working_directory": "/home/kavia/workspace/code-generation/royal-tic-tac-toe-48139-48169/tic_tac_toe_frontend"
+}
